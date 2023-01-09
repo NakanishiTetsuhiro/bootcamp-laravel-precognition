@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\PrecognitionFormController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -33,6 +35,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::prefix('precognition_form')->controller(PrecognitionFormController::class)->group(function(){
+
+    Route::get('/create', 'create')
+        ->name('precognition_form.create');
+    Route::post('/', 'store')
+        ->middleware([HandlePrecognitiveRequests::class])
+        ->name('precognition_form.store');
+
 });
 
 require __DIR__.'/auth.php';

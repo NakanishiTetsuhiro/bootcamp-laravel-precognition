@@ -26,14 +26,12 @@ class PrecognitionFormRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5',
-            'email' => 'required|email',
-            'password' => [ // 例： StrongPassword^0^
+            'email' => 'required|email|unique:users',
+            'password' => [
                 'required',
-                Password::min(16)   // 16文字以上
+                Password::min(8)   // 16文字以上
                 ->letters()     // 文字が含まれている
                 ->mixedCase()   // 大文字＆小文字が含まれている
-                ->numbers()     // 数字が含まれている
-                ->symbols()     // 特殊文字が含まれている
             ],
         ];
     }
